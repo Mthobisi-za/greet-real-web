@@ -24,7 +24,7 @@ if (connectStr) {
   /*
    */
 }
-const pool = new Pool({ connectStr, ssl: true });
+const pool = new Pool({ connectStr, ssl: false });
 module.exports = pool;
 ////-----pool
 
