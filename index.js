@@ -40,7 +40,8 @@ const PORT = process.env.PORT || 5000;
 ----Route must serve the home page
 */
 app.get('/', (req,res)=>{
-    dbLogic().getData(res);
+   // dbLogic().getData(res);
+   res.render('index')
 })
 /*-----about route
 ----method == post
