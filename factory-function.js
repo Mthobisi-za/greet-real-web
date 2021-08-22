@@ -1,8 +1,4 @@
-const dblogic = require("./db-factory");
-const useDb = dblogic();
-const {Pool} = require("pg");
-var connectStr = require("./poo")
-var pool = new Pool(connectStr);
+
 module.exports = function businessLogic() {
   var virtualD1 = [];
   var virtualD2 = []

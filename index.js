@@ -12,10 +12,25 @@ app.use(body.json());
 
 app.use(express.static('public'));
 const PORT = process.env.PORT || 5000;
-
-app.get("/", (req,res)=>{
+//----routes----//
+/*-----about route
+==method == get
+----Route must serve the home page
+*/
+app.get('/', (req,res)=>{
     res.render("index")
 })
+/*-----about route
+----method == post
+----Route must get data from form
+*/
+app.post("/greet", (req,res)=>{
+    
+})
+/*-----about route
+----Route must serve the home page
+*/
+
 app.listen(PORT, ()=>{
     console.log("server started on " + PORT)
 })
