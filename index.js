@@ -13,7 +13,7 @@ const obj = {
     port: 5432, 
     ssl: false
 }
-const connectStr = process.env.DATABASE_URL || obj;
+const connectStr = process.env.DATABASE_URL /*|| obj*/;
 const {Pool} = require("pg");
 if(connectStr){
 
@@ -21,7 +21,7 @@ if(connectStr){
     /*
     */
 }
-const pool = new Pool(connectStr);
+const pool = new Pool({connectStr, ssl: true});
 module.exports = pool;
 ////-----pool
 
