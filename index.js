@@ -11,7 +11,7 @@ const obj = {
     password: "mthobisi",
     database: "users",
     port: 5432, 
-    ssl: false
+    ssl: true
 }
 const connectStr = process.env.DATABASE_URL /*|| obj*/;
 const {Pool} = require("pg");
