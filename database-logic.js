@@ -8,7 +8,7 @@ module.exports = function database(){
             .then(resp => {
                 setTimeout(() => {
                     res.redirect("/")
-                }, 2000);
+                }, 500);
             })
             .catch(err => console.log(err))
     }
@@ -27,7 +27,7 @@ module.exports = function database(){
                  var name = resp.rows[resp.rows.length - 1];
                 setTimeout(() => {
                    res.render("index", {data: name, count: obj.count})
-                }, 2000);
+                }, 500);
             })
             .catch(err => console.log(err))
     }
@@ -41,7 +41,7 @@ module.exports = function database(){
                 });
                 setTimeout(() => {
                     res.render("greeted", {arg})
-                }, 2000);
+                }, 500);
             })
             .catch(err => console.log(err))
     }
@@ -57,7 +57,7 @@ module.exports = function database(){
                 })
                 setTimeout(() => {
                     res.render('specific', {name: name, count : count.length})
-                }, 2000);
+                }, 500);
             })
     }
     function resetData(res){
