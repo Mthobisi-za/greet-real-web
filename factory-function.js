@@ -1,4 +1,11 @@
-
+/*const dblogic = require("./db-factory");
+const useDb = dblogic();
+const {Pool} = require("pg");
+var connectStr = require("./poo")
+var pool = new Pool(connectStr);
+*/
+//---require the database
+const dbLogic = require("./database-logic");
 module.exports = function businessLogic() {
   var virtualD1 = [];
   var virtualD2 = []
@@ -10,7 +17,7 @@ module.exports = function businessLogic() {
   let message;
   //updated user values
 
-  function setUserNameAndLang(data) {
+  function setUserNameAndLang(data, res) {
     var statement = "Group" in data;
         function userFix() {
                 var num = records.indexOf(data.name); 
@@ -48,7 +55,7 @@ module.exports = function businessLogic() {
           userFix();
           langFix();
           message = "";
-          useDb.setData(userLang,userName, count)
+          dbLogic().setData(userLang,userName, res)
          
         }else {
          

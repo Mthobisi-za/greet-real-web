@@ -5,11 +5,32 @@ const body = require("body-parser");
 
 app.engine("handlebars", exhbs({defaultLayout: "main", layoutsDir: "views/layout"}))
 app.set("view engine", "handlebars")
+///-----pool
+const obj = {
+    user: "postgres",
+    password: "mthobisi",
+    database: "users",
+    port: 5432, 
+    ssl: false
+}
+const connectStr = process.env.DATABASE_URL || obj;
+const {Pool} = require("pg");
+if(connectStr){
 
+} else{
+    /*
+    */
+}
+const pool = new Pool(connectStr);
+module.exports = pool;
+////-----pool
 
 app.use(body.urlencoded({extended: false}));
 app.use(body.json());
-
+///----factory function
+const factoryFunction = require("./factory-function");
+const dbLogic = require("./database-logic");
+//-----factory function
 app.use(express.static('public'));
 const PORT = process.env.PORT || 5000;
 //----routes----//
@@ -18,19 +39,42 @@ const PORT = process.env.PORT || 5000;
 ----Route must serve the home page
 */
 app.get('/', (req,res)=>{
-    res.render("index")
+    dbLogic().getData(res);
 })
 /*-----about route
 ----method == post
 ----Route must get data from form
 */
 app.post("/greet", (req,res)=>{
-    
+    var data = req.body;
+    factoryFunction().setUserNameAndLang(data,res)
 })
 /*-----about route
-----Route must serve the home page
+----Route must reveal all the people who hve been greeted
 */
+app.get("/greeted", (req,res)=>{
+    dbLogic().getUniqueValues(res);
+})
 
+/*-----about route
+----Route must reveal how many times a user has been greeted.
+*/
+app.get("/count/:name", (req,res)=>{
+    var name = req.params.name;
+    dbLogic().getAllData(name,res)
+})
+/*-----about route
+----Route must reset the data.
+*/
+app.get("/reset", (req,res)=>{
+    dbLogic().resetData(res);
+})
+/*-----about route
+----Route must go backwards.
+*/
+app.get("/home", (req,res)=>{
+    res.redirect("/")
+})
 app.listen(PORT, ()=>{
     console.log("server started on " + PORT)
 })

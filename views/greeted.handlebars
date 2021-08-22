@@ -3,8 +3,8 @@
         <h2 class="h2_greet">Greeted List</h2>
     </div>
     <div class="list" style="text-align: center;">
-        {{#each data}}
-            <a style="text-decoration: none;" href="/count/{{name}}">{{name}}</a> <br>
+        {{#each arg}}
+            <a style="text-decoration: none;" href="/count/{{this}}">{{this}}</a> <br>
         {{/each}}
     </div>
     <section class="style" style="text-align: right; margin-top: 40px;">
