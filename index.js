@@ -43,6 +43,7 @@ const PORT = process.env.PORT || 5000;
 */
 app.get("/", (req, res) => {
   // dbLogic().getData(res);
+  /*
   pool
     .query("SELECT DISTINCT name FROM data")
     .then((resp) => {
@@ -50,14 +51,12 @@ app.get("/", (req, res) => {
         obj.count++;
       });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => console.log(err)); */
   pool
     .query("SELECT * FROM data")
     .then((resp) => {
-      var name = resp.rows[resp.rows.length - 1];
-      setTimeout(() => {
-        res.render("index", { data: name, count: obj.count });
-      }, 5);
+      var name = resp.rows[resp.rows.length - 1]
+        res.render("index", { data: name /*, count: obj.count*/ });
     })
     .catch((err) => console.log(err));
 });
