@@ -6,13 +6,14 @@ const body = require("body-parser");
 app.engine("handlebars", exhbs({defaultLayout: "main", layoutsDir: "views/layout"}))
 app.set("view engine", "handlebars")
 ///-----pool
+/*
 const obj = {
     user: "postgres",
     password: "mthobisi",
     database: "users",
     port: 5432, 
     ssl: true
-}
+}*/
 const connectStr = process.env.DATABASE_URL /*|| obj*/;
 const {Pool} = require("pg");
 if(connectStr){
