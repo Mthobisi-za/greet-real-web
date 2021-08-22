@@ -1,4 +1,4 @@
-const { reporters } = require("mocha");
+//const { reporters } = require("mocha");
 const pool = require("./index");
 module.exports = function database(){
     var obj = {count: 0}
@@ -8,7 +8,7 @@ module.exports = function database(){
             .then(resp => {
                 setTimeout(() => {
                     res.redirect("/")
-                }, 500);
+                }, 10);
             })
             .catch(err => console.log(err))
     }
@@ -27,7 +27,7 @@ module.exports = function database(){
                  var name = resp.rows[resp.rows.length - 1];
                 setTimeout(() => {
                    res.render("index", {data: name, count: obj.count})
-                }, 500);
+                }, 10);
             })
             .catch(err => console.log(err))
     }
@@ -41,7 +41,7 @@ module.exports = function database(){
                 });
                 setTimeout(() => {
                     res.render("greeted", {arg})
-                }, 500);
+                }, 10);
             })
             .catch(err => console.log(err))
     }
@@ -57,7 +57,7 @@ module.exports = function database(){
                 })
                 setTimeout(() => {
                     res.render('specific', {name: name, count : count.length})
-                }, 500);
+                }, 10);
             })
     }
     function resetData(res){
