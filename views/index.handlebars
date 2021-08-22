@@ -1,0 +1,35 @@
+  <div class="holder">
+            <div class="greet_section">
+                <h2 class="h2_greet">Greeting</h2>
+            </div>
+                  <form action="/greet" method="POST">
+            <div class="info_">
+                <label for="name" class="label_first">Name</label></span>
+                <input type="text" name="name" id="name" placeholder="John">
+            </div>
+            <div class="errors" style="color: red;"><span class="errspan"></span></div> <br>
+            <div class="radio">
+                <!-----sections for each buttons----->
+                <section class="style">
+                    <input type="radio" name="Group" id="zulu" value="Isizulu">
+                    <label for="zulu" class="group__">Isizulu</label>
+
+                </section>
+                <section class="style">
+                    <input type="radio" name="Group" id="Dumela" value="Sesotho">
+                    <label for="Dumela" class="group__">Sesotho</label>
+                </section>
+                <section class="style">
+                    <input type="radio" name="Group" id="eng" value="English">
+                    <label for="eng" class="group__">English</label>
+                </section>
+            </div><span style="color: red;" class="errspan">{{messages.info}}</span> <br>  <br>
+            <div class="btn">
+                <button  id="grt" class="button" type="submit">Greet Me</button> <!--<button class="reset">Reset</button>--> 
+            </div></form> <button><a style="text-decoration: none; color: rgb(116, 105, 105);" href="/reset">Reset</a></button>  <br>
+            <span id="lang">{{data.userLang}}</span> <span id="namees" style="color: gray;">{{data.userName}}</span> <br> <br>
+            <div class="floa"><span class="float">Number of greeted people is</span> <span class="num">{{data.count}}</span></div>
+            <br>
+            <div class="alert"><span class="aler" style="color: orange;"><a href="/greeted">Greeted People</a></span></div>
+        </div>
+  

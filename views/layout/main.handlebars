@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <link rel="stylesheet" href="/css/greet.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Greetings Web Application</title>
+</head>
+    <body>
+        <div class="container">
+        {{{body}}}
+        </div>
+    </body>
+   <script src="/cond.js"></script>
+   <script type="module">
+       import { makeChanges, arrg} from "../cond.js";
+       makeChanges();
+       arrg.push("yea");
+       console.log(arrg)
+   </script>
+</html>
