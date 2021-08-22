@@ -24,7 +24,7 @@ if (connectStr) {
   /*
    */
 }
-const pool = new Pool({ connectStr, ssl: false });
+const pool = new Pool({ connectStr, ssl: true });
 module.exports = pool;
 ////-----pool
 
@@ -41,8 +41,11 @@ const PORT = process.env.PORT || 5000;
 ==method == get
 ----Route must serve the home page
 */
+app.get('/', (req,res)=>{
+    res.render("index")
+})
 app.get("/", (req, res) => {
-  // dbLogic().getData(res);
+   dbLogic().getData(res);
   /*
   pool
     .query("SELECT DISTINCT name FROM data")
@@ -51,14 +54,16 @@ app.get("/", (req, res) => {
         obj.count++;
       });
     })
-    .catch((err) => console.log(err)); */
+    .catch((err) => console.log(err)); 
   pool
     .query("SELECT * FROM data")
     .then((resp) => {
-      var name = resp.rows[resp.rows.length - 1]
-        res.render("index", { data: name /*, count: obj.count*/ });
+      var name = resp.rows[resp.rows.length - 1];
+      setTimeout(() => {
+        res.render("index", { data: name /*, count: obj.count*//* });
+      }, );
     })
-    .catch((err) => console.log(err));
+    .catch((err) => console.log(err)); */
 });
 /*-----about route
 ----method == post
