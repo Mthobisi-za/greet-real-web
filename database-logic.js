@@ -27,7 +27,7 @@ module.exports = function database(){
                  var name = resp.rows[resp.rows.length - 1];
                 setTimeout(() => {
                    res.render("index", {data: name, count: obj.count})
-                }, 10);
+                }, 5);
             })
             .catch(err => console.log(err))
     }
