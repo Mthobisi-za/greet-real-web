@@ -55,7 +55,7 @@ app.get("/", function(req, res){
       
     })() */
     var name = {"name": "mtho", "language": "Hello"}
-    res.render("index", {data: name, count: count.rows.length})
+    res.render("index", {data: name, count: 3})
 });
 /*-----about route
 ----method == post
