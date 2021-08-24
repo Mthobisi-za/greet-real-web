@@ -50,7 +50,12 @@ const PORT = process.env.PORT || 5000;
 app.get("/", function(req, res){
   (async ()=>{
     //var data = dbLogic().getData()
-    res.render("index", {data: data, count : data.count.length})
+    try {
+      res.render("index", {data: data, count : data.count.length})
+    } catch (error) {
+     res.render("index") 
+    }
+    
   })()
 });
 /*-----about route
@@ -69,7 +74,7 @@ app.post("/greet", (req, res) => {
 app.get("/greeted", (req, res) => {
   (async ()=>{
       var full = data.count;
-      console.log(full)
+     // console.log(full)
       res.render("greeted", {arg: full})
   })()
 
@@ -84,8 +89,12 @@ app.get("/count/:name", (req, res) => {
  // dbLogic().getAllData(name, res);
  
  (async ()=>{
-       var allData = (await dbLogic().getAllData(name)).length;
-        res.render('specific', {name: name, count : allData})
+    try {
+     var allData = (await dbLogic().getAllData(name)).length;
+  } catch (error) {
+    
+  }
+      res.render('specific', {name: name, count : allData})
  })()
 
 });
