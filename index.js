@@ -41,7 +41,11 @@ const PORT = process.env.PORT || 5000;
 ==method == get
 ----Route must serve the home page
 */
-app.get("/", function(req, res){
+app.get("/", (req,res)=>{
+  res.render("index");
+  res.redirect("/home")
+})
+app.get("/home", function(req, res){
   // dbLogic().getData(res);
   
     (async()=>{
@@ -129,12 +133,7 @@ app.get("/reset", (req, res) => {
 /*-----about route
 ----Route must go backwards.
 */
-app.get("/home", (req, res) => {
-  setTimeout(() => {
-    res.redirect("/");
-  }, 2000);
-  
-});
+
 app.listen(PORT, () => {
   console.log("server started on " + PORT);
 });
