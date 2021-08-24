@@ -22,16 +22,23 @@ if (connectStr) {
   /*
    */
 }
-const pool = new Pool({connectStr, ssl: true});
+const pool = new Pool(obj);
 module.exports = pool;
 ////-----pool
-
-app.use(body.urlencoded({ extended: false }));
-app.use(body.json());
 ///----factory function
 const factoryFunction = require("./factory-function");
 const dbLogic = require("./database-logic");
 //-----factory function
+var data = {};
+ async function log(){
+  data["name"] = await dbLogic().getData();
+  data["count"] = await dbLogic().count();
+}
+log();
+
+app.use(body.urlencoded({ extended: false }));
+app.use(body.json());
+
 app.use(express.static("public"));
 const PORT = process.env.PORT || 5000;
 //----routes----//
@@ -42,8 +49,8 @@ const PORT = process.env.PORT || 5000;
 
 app.get("/", function(req, res){
   (async ()=>{
-    var data = dbLogic().getData()
-    res.render("index", {data: ( await data)})
+    //var data = dbLogic().getData()
+    res.render("index", {data: data, count : data.count.length})
   })()
 });
 /*-----about route
@@ -53,6 +60,7 @@ app.get("/", function(req, res){
 app.post("/greet", (req, res) => {
   var data = req.body;
   factoryFunction().setUserNameAndLang(data);
+  log();
   res.redirect("/");
 });
 /*-----about route
@@ -60,12 +68,9 @@ app.post("/greet", (req, res) => {
 */
 app.get("/greeted", (req, res) => {
   (async ()=>{
-      var names = await pool.query("SELECT DISTINCT name FROM data");
-      var arg = []
-      names.rows.forEach(element =>{
-        arg.push(element.name)
-    }); 
-      res.render("greeted", {arg})
+      var full = data.count;
+      console.log(full)
+      res.render("greeted", {arg: full})
   })()
 
   //dbLogic().getUniqueValues(res);
@@ -79,15 +84,8 @@ app.get("/count/:name", (req, res) => {
  // dbLogic().getAllData(name, res);
  
  (async ()=>{
-    var names = await pool.query("SELECT * FROM data");
-    var array = names.rows;
-    var count = [];
-         array.forEach(element =>{
-        if(element.name == name){
-            count.push(element.name)
-          }
-       })
-        res.render('specific', {name: name, count : count.length})
+       var allData = (await dbLogic().getAllData(name)).length;
+        res.render('specific', {name: name, count : allData})
  })()
 
 });
@@ -98,7 +96,7 @@ app.get("/reset", (req, res) => {
   //dbLogic().resetData(res);
   (async ()=>{
     await pool.query("DELETE FROM data");
-     res.redirect("/home");
+     res.redirect("/");
   })()
 });
 /*-----about route

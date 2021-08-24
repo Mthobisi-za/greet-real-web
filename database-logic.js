@@ -1,55 +1,31 @@
 //const { reporters } = require("mocha");
 const pool = require("./index");
 module.exports = function database(){
-    var obj = {count: 0}
-    function count(){
-        pool
-            .query("SELECT DISTINCT name FROM data")
-            .then(resp =>{
-                resp.rows.forEach(element =>{
-                    obj.count ++
-                })
-            })
-            .catch(err => console.log(err))
+    async function count(){
+        var count =await pool.query("SELECT DISTINCT name FROM data")
+        return  count.rows
     }
-    count()
     async function setData(lang, name,){
         pool.query("INSERT INTO data (name,language) VALUES($1,$2)", [name,lang])    
     }
      async function getData(){
-        
-         var allNames = await pool.query("SELECT * FROM data")
+        var allNames = await pool.query("SELECT * FROM data")
         var name = allNames.rows[allNames.rows.length - 1];
-           return {name, count : obj.count}
+        return name
     }
-     async function getUniqueValues(res){
-        pool
-            .query("SELECT DISTINCT name FROM data")
-            .then(resp =>{
-                var arg = [];
-                resp.rows.forEach(element =>{
-                    arg.push(element.name)
-                });
-                setTimeout(() => {
-                    res.render("greeted", {arg})
-                }, 10);
-            })
-            .catch(err => console.log(err))
-    }
-    async function getAllData(name,res){
-        pool
-            .query("SELECT * FROM data")
-            .then(resp =>{
-                var count = [];
-                resp.rows.forEach(element =>{
+    async function getAllData(name){
+        var count = []
+        var all = (await pool.query("SELECT * FROM data")).rows
+                all.forEach(element =>{
                     if(element.name == name){
                         count.push(element.name)
                     }
                 })
+                /* 
                 setTimeout(() => {
                     res.render('specific', {name: name, count : count.length})
-                }, 10);
-            })
+                }, 10); */
+            return count
     }
     async function resetData(res){
         pool
@@ -62,8 +38,8 @@ module.exports = function database(){
     return{
         setData,
         getData,
-        getUniqueValues,
         getAllData,
-        resetData
+        resetData,
+        count
     }
 }
