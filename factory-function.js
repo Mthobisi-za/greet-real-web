@@ -17,7 +17,7 @@ module.exports = function businessLogic() {
   let message;
   //updated user values
 
-  function setUserNameAndLang(data, res) {
+  function setUserNameAndLang(data) {
     var statement = "Group" in data;
         function userFix() {
                 var num = records.indexOf(data.name); 
@@ -55,8 +55,8 @@ module.exports = function businessLogic() {
           userFix();
           langFix();
           message = "";
-          dbLogic().setData(userLang,userName, res)
-         
+          dbLogic().setData(userLang,userName)
+            return "true"
         }else {
          
           if(message !== undefined|| message == "Please enter name that does not have numbers" || message =="Please enter your name"){
@@ -64,6 +64,7 @@ module.exports = function businessLogic() {
           }else{
             message = "Please select language"
           }
+          return "false"
           
         }
        }
@@ -75,6 +76,7 @@ module.exports = function businessLogic() {
       userName,
       count,
     };
+   //return userLang + "," + userLang
   }
   function getErrors(){
     return{

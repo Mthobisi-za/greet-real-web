@@ -2,14 +2,10 @@
 const pool = require("./index");
 module.exports = function database(){
     var obj = {count: 0}
-    function setData(lang, name, res){
+    function setData(lang, name,){
         pool
             .query("INSERT INTO data (name,language) VALUES($1,$2)", [name,lang])
-            .then(resp => {
-                setTimeout(() => {
-                    res.redirect("/")
-                }, 10);
-            })
+            .then(resp => {})
             .catch(err => console.log(err))
     }
     function getData(res){

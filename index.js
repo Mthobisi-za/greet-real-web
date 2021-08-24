@@ -9,14 +9,14 @@ app.engine(
 );
 app.set("view engine", "handlebars");
 ///-----pool
-/*
+
 const obj = {
     user: "postgres",
     password: "mthobisi",
     database: "users",
     port: 5432, 
-    ssl: true
-}*/
+    ssl: false
+}
 const connectStr = process.env.DATABASE_URL; /*|| obj*/
 const { Pool } = require("pg");
 if (connectStr) {
@@ -24,7 +24,7 @@ if (connectStr) {
   /*
    */
 }
-const pool = new Pool({ connectStr, ssl: true });
+const pool = new Pool({connectStr, ssl: true});
 module.exports = pool;
 ////-----pool
 
@@ -41,14 +41,18 @@ const PORT = process.env.PORT || 5000;
 ==method == get
 ----Route must serve the home page
 */
+app.get("/", function(req, res){
+  // dbLogic().getData(res);
+  
+    (async()=>{
+      var names = await pool.query('SELECT * FROM data');
+      var name = await names.rows[names.rows.length -1 ];
+      console.log(names.rows, name)
+      var count = await pool.query("SELECT DISTINCT name FROM data");
+     // console.log(name.name, name.language, count.rows.length);
+      res.render("index", {data: name, count: count.rows.length})
+    })()
 /*
-app.get('/', (req,res)=>{
-    res.render("index")
-})
-*/
-app.get("/", (req, res) => {
-   dbLogic().getData(res);
-  /*
   pool
     .query("SELECT DISTINCT name FROM data")
     .then((resp) => {
@@ -65,7 +69,7 @@ app.get("/", (req, res) => {
         res.render("index", { data: name /*, count: obj.count*//* });
       }, );
     })
-    .catch((err) => console.log(err)); */
+    .catch((err) => console.log(err));  */
 });
 /*-----about route
 ----method == post
@@ -73,13 +77,23 @@ app.get("/", (req, res) => {
 */
 app.post("/greet", (req, res) => {
   var data = req.body;
-  factoryFunction().setUserNameAndLang(data, res);
+  factoryFunction().setUserNameAndLang(data);
+  res.redirect("/home");
 });
 /*-----about route
 ----Route must reveal all the people who hve been greeted
 */
 app.get("/greeted", (req, res) => {
-  dbLogic().getUniqueValues(res);
+  (async ()=>{
+      var names = await pool.query("SELECT DISTINCT name FROM data");
+      var arg = []
+      names.rows.forEach(element =>{
+        arg.push(element.name)
+    }); 
+      res.render("greeted", {arg})
+  })()
+
+  //dbLogic().getUniqueValues(res);
 });
 
 /*-----about route
@@ -87,19 +101,39 @@ app.get("/greeted", (req, res) => {
 */
 app.get("/count/:name", (req, res) => {
   var name = req.params.name;
-  dbLogic().getAllData(name, res);
+ // dbLogic().getAllData(name, res);
+ 
+ (async ()=>{
+    var names = await pool.query("SELECT * FROM data");
+    var array = names.rows;
+    var count = [];
+         array.forEach(element =>{
+        if(element.name == name){
+            count.push(element.name)
+          }
+       })
+        res.render('specific', {name: name, count : count.length})
+ })()
+
 });
 /*-----about route
 ----Route must reset the data.
 */
 app.get("/reset", (req, res) => {
-  dbLogic().resetData(res);
+  //dbLogic().resetData(res);
+  (async ()=>{
+    await pool.query("DELETE FROM data");
+     res.redirect("/home");
+  })()
 });
 /*-----about route
 ----Route must go backwards.
 */
 app.get("/home", (req, res) => {
-  res.redirect("/");
+  setTimeout(() => {
+    res.redirect("/");
+  }, 2000);
+  
 });
 app.listen(PORT, () => {
   console.log("server started on " + PORT);
