@@ -59,7 +59,7 @@ app.get("/", function(req, res){
 app.post("/greet", (req, res) => {
   var data = req.body;
   factoryFunction().setUserNameAndLang(data);
-  res.redirect("/home");
+  res.redirect("/");
 });
 /*-----about route
 ----Route must reveal all the people who hve been greeted
