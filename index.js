@@ -42,15 +42,17 @@ const PORT = process.env.PORT || 5000;
 
 app.get("/", function(req, res){
   // dbLogic().getData(res);
-  
+   var names
+   var name
     (async()=>{
-      var names = await pool.query('SELECT * FROM data');
-      var name = await names.rows[names.rows.length -1 ];
-      console.log(names.rows, name)
+      names = await pool.query('SELECT * FROM data');
+       name = await names.rows[names.rows.length -1 ];
+      //console.log(names.rows, name)
       var count = await pool.query("SELECT DISTINCT name FROM data");
      // console.log(name.name, name.language, count.rows.length);
-      res.render("index", {data: name, count: count.rows.length})
+      
     })()
+    res.render("index", {data: name, count: count.rows.length})
 });
 /*-----about route
 ----method == post
