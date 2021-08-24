@@ -2,13 +2,7 @@
 const pool = require("./index");
 module.exports = function database(){
     var obj = {count: 0}
-    function setData(lang, name,){
-        pool
-            .query("INSERT INTO data (name,language) VALUES($1,$2)", [name,lang])
-            .then(resp => {})
-            .catch(err => console.log(err))
-    }
-    function getData(res){
+    function count(){
         pool
             .query("SELECT DISTINCT name FROM data")
             .then(resp =>{
@@ -17,17 +11,18 @@ module.exports = function database(){
                 })
             })
             .catch(err => console.log(err))
-        pool
-            .query("SELECT * FROM data")
-            .then(resp =>{
-                 var name = resp.rows[resp.rows.length - 1];
-                setTimeout(() => {
-                   res.render("index", {data: name, count: obj.count})
-                }, 5);
-            })
-            .catch(err => console.log(err))
     }
-    function getUniqueValues(res){
+    count()
+    async function setData(lang, name,){
+        pool.query("INSERT INTO data (name,language) VALUES($1,$2)", [name,lang])    
+    }
+     async function getData(){
+        
+         var allNames = await pool.query("SELECT * FROM data")
+        var name = allNames.rows[allNames.rows.length - 1];
+           return {name, count : obj.count}
+    }
+     async function getUniqueValues(res){
         pool
             .query("SELECT DISTINCT name FROM data")
             .then(resp =>{
@@ -41,7 +36,7 @@ module.exports = function database(){
             })
             .catch(err => console.log(err))
     }
-    function getAllData(name,res){
+    async function getAllData(name,res){
         pool
             .query("SELECT * FROM data")
             .then(resp =>{
@@ -56,7 +51,7 @@ module.exports = function database(){
                 }, 10);
             })
     }
-    function resetData(res){
+    async function resetData(res){
         pool
             .query("DELETE FROM data")
             .then(resp =>{
