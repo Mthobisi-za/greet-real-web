@@ -53,7 +53,7 @@ app.get("/", function(req, res){
     try {
       res.render("index", {data: data, count : data.count.length})
     } catch (error) {
-     res.render("index") 
+     res.render("index", {count: 0})
     }
     
   })()
