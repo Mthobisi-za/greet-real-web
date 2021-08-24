@@ -2,14 +2,12 @@ const express = require("express");
 const app = express();
 const exhbs = require("express-handlebars");
 const body = require("body-parser");
-
 app.engine(
   "handlebars",
   exhbs({ defaultLayout: "main", layoutsDir: "views/layout" })
 );
 app.set("view engine", "handlebars");
 ///-----pool
-
 const obj = {
     user: "postgres",
     password: "mthobisi",
@@ -41,11 +39,8 @@ const PORT = process.env.PORT || 5000;
 ==method == get
 ----Route must serve the home page
 */
-app.get("/", (req,res)=>{
-  res.render("index");
-  res.redirect("/home")
-})
-app.get("/home", function(req, res){
+
+app.get("/", function(req, res){
   // dbLogic().getData(res);
   
     (async()=>{
@@ -56,24 +51,6 @@ app.get("/home", function(req, res){
      // console.log(name.name, name.language, count.rows.length);
       res.render("index", {data: name, count: count.rows.length})
     })()
-/*
-  pool
-    .query("SELECT DISTINCT name FROM data")
-    .then((resp) => {
-      resp.rows.forEach((element) => {
-        obj.count++;
-      });
-    })
-    .catch((err) => console.log(err)); 
-  pool
-    .query("SELECT * FROM data")
-    .then((resp) => {
-      var name = resp.rows[resp.rows.length - 1];
-      setTimeout(() => {
-        res.render("index", { data: name /*, count: obj.count*//* });
-      }, );
-    })
-    .catch((err) => console.log(err));  */
 });
 /*-----about route
 ----method == post
