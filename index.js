@@ -64,14 +64,14 @@ app.post("/greet", (req, res) => {
   factoryFunction().setUserNameAndLang(data);
   setTimeout(() => {
      res.redirect("/");
-  }, 50);
+  }, 10);
 });
 /*-----about route
 ----Route must reveal all the people who hve been greeted
 */
 app.get("/greeted", (req, res) => {
   (async ()=>{
-      var full = await dbLogic().count()
+      var full =  dbLogic().count()
      // console.log(full)
       res.render("greeted", {arg: full})
   })()
