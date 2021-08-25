@@ -22,7 +22,7 @@ if (connectStr) {
   /*
    */
 }
-const pool = new Pool(obj);
+const pool = new Pool({connectStr, ssl: true});
 module.exports = pool;
 ////-----pool
 ///----factory function
