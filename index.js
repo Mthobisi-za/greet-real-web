@@ -50,8 +50,8 @@ const PORT = process.env.PORT || 5000;
 
 app.get("/", function(req, res){
   (async ()=>{
-    var data = await dbLogic().getData();
-    var count = await dbLogic().count();
+    var data =  dbLogic().getData();
+    var count =  dbLogic().count();
     res.render("index", {data: data, count : count.length})
   })()
 });
