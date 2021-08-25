@@ -22,7 +22,7 @@ if (connectStr) {
   /*
    */
 }
-const pool = new Pool({connectStr, ssl: true});
+const pool = new Pool(obj);
 module.exports = pool;
 ////-----pool
 ///----factory function
@@ -47,11 +47,18 @@ const PORT = process.env.PORT || 5000;
 ==method == get
 ----Route must serve the home page
 */
+var data;
+var count;
+ async function gett(){
+  data = await  dbLogic().getData();
+  count = await  dbLogic().count();
+};
+   
 
 app.get("/", function(req, res){
+  
   (async ()=>{
-    var data =  dbLogic().getData();
-    var count =  dbLogic().count();
+    await gett()
     res.render("index", {data: data, count : count.length})
   })()
 });
@@ -62,7 +69,9 @@ app.get("/", function(req, res){
 app.post("/greet", (req, res) => {
   var data = req.body;
   factoryFunction().setUserNameAndLang(data);
+  
   setTimeout(() => {
+    gett()
      res.redirect("/");
   }, 10);
 });
@@ -71,7 +80,7 @@ app.post("/greet", (req, res) => {
 */
 app.get("/greeted", (req, res) => {
   (async ()=>{
-      var full =  dbLogic().count()
+      var full = await  dbLogic().count()
      // console.log(full)
       res.render("greeted", {arg: full})
   })()
