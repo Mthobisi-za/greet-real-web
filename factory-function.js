@@ -56,7 +56,7 @@ module.exports = function businessLogic() {
           langFix();
           message = "";
           dbLogic().setData(userLang,userName)
-            return "true"
+         
         }else {
          
           if(message !== undefined|| message == "Please enter name that does not have numbers" || message =="Please enter your name"){
@@ -64,7 +64,6 @@ module.exports = function businessLogic() {
           }else{
             message = "Please select language"
           }
-          return "false"
           
         }
        }

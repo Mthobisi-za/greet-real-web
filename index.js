@@ -29,13 +29,14 @@ module.exports = pool;
 const factoryFunction = require("./factory-function");
 const dbLogic = require("./database-logic");
 //-----factory function
+/*
 var data = {};
  async function log(){
   data["name"] = await dbLogic().getData();
   data["count"] = await dbLogic().count();
 }
 log();
-
+*/
 app.use(body.urlencoded({ extended: false }));
 app.use(body.json());
 
@@ -49,13 +50,9 @@ const PORT = process.env.PORT || 5000;
 
 app.get("/", function(req, res){
   (async ()=>{
-    //var data = dbLogic().getData()
-    try {
-      res.render("index", {data: data, count : data.count.length})
-    } catch (error) {
-     res.render("index", {count: 0})
-    }
-    
+    var data = await dbLogic().getData();
+    var count = await dbLogic().count();
+    res.render("index", {data: data, count : count.length})
   })()
 });
 /*-----about route
@@ -65,19 +62,19 @@ app.get("/", function(req, res){
 app.post("/greet", (req, res) => {
   var data = req.body;
   factoryFunction().setUserNameAndLang(data);
-  log();
-  res.redirect("/");
+  setTimeout(() => {
+     res.redirect("/");
+  }, 50);
 });
 /*-----about route
 ----Route must reveal all the people who hve been greeted
 */
 app.get("/greeted", (req, res) => {
   (async ()=>{
-      var full = data.count;
+      var full = await dbLogic().count()
      // console.log(full)
       res.render("greeted", {arg: full})
   })()
-
   //dbLogic().getUniqueValues(res);
 });
 

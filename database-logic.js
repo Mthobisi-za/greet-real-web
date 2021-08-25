@@ -6,7 +6,10 @@ module.exports = function database(){
         return  count.rows
     }
     async function setData(lang, name,){
-        await pool.query("INSERT INTO data (name,language) VALUES($1,$2)", [name,lang])    
+         pool
+            .query("INSERT INTO data (name,language) VALUES($1,$2)", [name,lang])  
+            .then(resp =>{console.log("done")})
+            .catch(err => console.log(err))  
     }
      async function getData(){
         var allNames = await pool.query("SELECT * FROM data")
