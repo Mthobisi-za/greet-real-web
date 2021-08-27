@@ -2,23 +2,23 @@
 const pool = require("./index");
 module.exports = function database(){
     async function count(){
-        var count =await pool.query("SELECT DISTINCT name FROM data")
+        var count = await pool.query("select distinct name from data");
         return  count.rows
     }
     async function setData(lang, name,){
          pool
-            .query("INSERT INTO data (name,language) VALUES($1,$2)", [name,lang])  
+            .query("insert into data (name,language) values($1,$2)", [name,lang])
             .then(resp =>{console.log("done")})
             .catch(err => console.log(err))  
     }
      async function getData(){
-        var allNames = await pool.query("SELECT * FROM data")
+        var allNames = await pool.query("select * from data");
         var name = allNames.rows[allNames.rows.length - 1];
         return name
     }
     async function getAllData(name){
         var count = []
-        var all = (await pool.query("SELECT * FROM data")).rows
+        var all = (await pool.query("select * from data")).rows;
                 all.forEach(element =>{
                     if(element.name == name){
                         count.push(element.name)
@@ -30,11 +30,11 @@ module.exports = function database(){
                 }, 10); */
             return count
     }
-    async function resetData(res){
+    async function resetData(){
         pool
-            .query("DELETE FROM data")
+            .query("delete from data")
             .then(resp =>{
-                res.redirect("/");
+               
             })
             .catch(err => console.log(err))
     }

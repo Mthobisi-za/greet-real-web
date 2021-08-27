@@ -2,6 +2,15 @@ const express = require("express");
 const app = express();
 const exhbs = require("express-handlebars");
 const body = require("body-parser");
+const session = require("express-session")
+const flash = require("express-flash");
+app.use(session({
+  secret: "keyboard cat",
+  resave: false,
+  saveUninitialized: true
+}))
+app.use(flash())
+
 app.engine(
   "handlebars",
   exhbs({ defaultLayout: "main", layoutsDir: "views/layout" })
@@ -22,7 +31,7 @@ if (connectStr) {
   /*
    */
 }
-const pool = new Pool({connectStr, ssl: true});
+const pool = new Pool(obj);
 module.exports = pool;
 ////-----pool
 ///----factory function
@@ -47,18 +56,21 @@ const PORT = process.env.PORT || 5000;
 ==method == get
 ----Route must serve the home page
 */
+/*
 var data;
 var count;
  async function gett(){
   data = await  dbLogic().getData();
   count = await  dbLogic().count();
 };
-   
+   */
 
 app.get("/", function(req, res){
-  
+ 
   (async ()=>{
-    await gett()
+    //await gett()
+    var data = await  dbLogic().getData();
+    var count = await  dbLogic().count();
     res.render("index", {data: data, count : count.length})
   })()
 });
@@ -69,11 +81,12 @@ app.get("/", function(req, res){
 app.post("/greet", (req, res) => {
   var data = req.body;
   factoryFunction().setUserNameAndLang(data);
-  
-  setTimeout(() => {
-    gett()
+ console.log(factoryFunction().getErrors())
+  setTimeout(() => { 
+    req.flash("info", factoryFunction().getErrors().message)
+    //gett()
      res.redirect("/");
-  }, 10);
+  }, 100);
 });
 /*-----about route
 ----Route must reveal all the people who hve been greeted

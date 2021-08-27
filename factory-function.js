@@ -55,8 +55,7 @@ module.exports = function businessLogic() {
           userFix();
           langFix();
           message = "";
-          dbLogic().setData(userLang,userName)
-         
+          dbLogic().setData(userLang,userName);
         }else {
          
           if(message !== undefined|| message == "Please enter name that does not have numbers" || message =="Please enter your name"){
@@ -78,9 +77,8 @@ module.exports = function businessLogic() {
    //return userLang + "," + userLang
   }
   function getErrors(){
-    return{
-      message
-    }
+    return {message}
+    
   }
   function getGreeted(){
   var correct = [];
