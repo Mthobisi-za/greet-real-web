@@ -17,13 +17,14 @@ app.engine(
 );
 app.set("view engine", "handlebars");
 ///-----pool
+/*
 const obj = {
     user: "postgres",
     password: "mthobisi",
     database: "users",
     port: 5432, 
     ssl: false
-}
+} */
 const connectStr = process.env.DATABASE_URL; /*|| obj*/
 const { Pool } = require("pg");
 if (connectStr) {
@@ -31,7 +32,7 @@ if (connectStr) {
   /*
    */
 }
-const pool = new Pool(obj);
+const pool = new Pool({connectStr, ssl: true});
 module.exports = pool;
 ////-----pool
 ///----factory function
