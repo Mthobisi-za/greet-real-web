@@ -1,9 +1,8 @@
-//const { reporters } = require("mocha");
-const pool = require("./index");
-module.exports = function database(){
+
+module.exports = function database(pool){
     async function count(){
         var count = await pool.query("select distinct name from data");
-        return  count.rows
+        return  count
     }
     async function setData(lang, name,){
          pool
@@ -17,18 +16,8 @@ module.exports = function database(){
         return name
     }
     async function getAllData(name){
-        var count = []
-        var all = (await pool.query("select * from data")).rows;
-                all.forEach(element =>{
-                    if(element.name == name){
-                        count.push(element.name)
-                    }
-                })
-                /* 
-                setTimeout(() => {
-                    res.render('specific', {name: name, count : count.length})
-                }, 10); */
-            return count
+        var all = await pool.query("select * from data");
+            return all
     }
     async function resetData(){
         pool

@@ -55,15 +55,16 @@ module.exports = function businessLogic() {
           userFix();
           langFix();
           message = "";
-          dbLogic().setData(userLang,userName);
+          return {
+            userName,userLang
+          }
         }else {
-         
           if(message !== undefined|| message == "Please enter name that does not have numbers" || message =="Please enter your name"){
             message = message + " and select language"
           }else{
             message = "Please select language"
           }
-          
+          return {err: 'there is err', message}
         }
        }
   }
@@ -77,7 +78,7 @@ module.exports = function businessLogic() {
    //return userLang + "," + userLang
   }
   function getErrors(){
-    return {message}
+    return message
     
   }
   function getGreeted(){
