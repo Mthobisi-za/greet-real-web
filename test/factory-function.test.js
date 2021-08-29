@@ -8,7 +8,7 @@ describe('Greetings web app', ()=>{
             name: 'Mthobisi',
             Group: "Isizulu"
         }
-        assert.equal(greeted.setUserNameAndLang(data), undefined)
+        assert.deepEqual(greeted.setUserNameAndLang(data), {userName: "Mthobisi",userLang: "Sawbona" })
     });
     it('should get or return the recorded data', () => {
         var greeted = greet();

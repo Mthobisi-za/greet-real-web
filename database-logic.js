@@ -1,4 +1,3 @@
-
 module.exports = function database(pool){
     async function count(){
         var count = await pool.query("select distinct name from data");
