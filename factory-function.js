@@ -1,14 +1,12 @@
-/*const dblogic = require("./db-factory");
-const useDb = dblogic();
-const {Pool} = require("pg");
-var connectStr = require("./poo")
-var pool = new Pool(connectStr);
+/*const pg = require("pg");
+const {Pool} = pg;
+// we are using a special test database for the tests
+const connectionString = process.env.DATABASE_URL;
+var pool = new Pool({connectionString, ssl: {rejectUnauthorized: false}});
 */
 //---require the database
 const dbLogic = require("./database-logic");
 module.exports = function businessLogic() {
-  var virtualD1 = [];
-  var virtualD2 = []
   var records = [];
   var all = []
   var userName;
