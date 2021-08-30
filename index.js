@@ -122,7 +122,7 @@ app.get("/greeted", (req, res) => {
     var full = await dbLogic(pool).count().then(val =>{
        res.render("greeted", { arg:  val.rows});
     })
-    .catch(err => console.log(err))
+    .catch(err => console.log())
     // console.log(full)
    
   })();

@@ -26,7 +26,7 @@ describe("Database tests", () => {
              var check = typeof (val.rows)
             assert.equal('object', check);
          })
-         .catch(err => console.log(err))
+         .catch(err => console.log())
     });
     it('should get the number of rows in database', async function(){
         // the Factory Function is called CategoryService
@@ -38,7 +38,7 @@ describe("Database tests", () => {
              var number = (val.rows).length
             assert.equal(number, check);
          })
-         .catch(err => console.log(err))
+         .catch(err => console.log())
     });
 
     after(function(){
