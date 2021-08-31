@@ -1,7 +1,8 @@
 module.exports = function database(pool){
     async function count(){
-        var count = await pool.query("select distinct name from data");
-        return  count
+        //var count = await pool.query("select distinct name from data");
+        var promise =  new Promise((resolve,reject)=>{resolve(pool.query("select distinct name from data"))});
+        return  promise
     }
     async function setData(lang, name,){
          pool
@@ -10,9 +11,9 @@ module.exports = function database(pool){
             .catch(err => console.log(err))  
     }
      async function getData(){
-        var allNames = await pool.query("select * from data");
-        var name = allNames.rows[allNames.rows.length - 1];
-        return name
+        var promise = new Promise((resolve,reject)=>{resolve(pool.query("select * from data"))});
+      //  var name = allNames.rows[allNames.rows.length - 1];
+        return promise
     }
     async function getAllData(name){
         var all = await pool.query("select * from data");
