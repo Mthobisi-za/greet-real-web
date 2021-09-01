@@ -1,16 +1,9 @@
-const obj = {
-  user: "postgres",
-  password: "mthobisi",
-  database: "users",
-  port: 5432,
-  ssl: false,
-};
-const pg = require("pg");
-const { Pool } = pg;
+
+const {Pool} = require("pg");
 // we are using a special test database for the tests
 const connectionString = process.env.DATABASE_URL;
-//{connectionString, ssl: {rejectUnauthorized: false}}
-var pool = new Pool(obj);
+//
+var pool = new Pool({connectionString, ssl: {rejectUnauthorized: false}});
 
 //---require the database
 const dbLogic = require("./database-logic");
@@ -24,7 +17,6 @@ module.exports = function businessLogic() {
   let message;
   //updated user values
   //-----db variables
-  var obj = { count: 0 };
   //-----db variables
 
   function setUserNameAndLang(data) {

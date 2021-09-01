@@ -23,14 +23,6 @@ const factoryFunction = require("./factory-function");
 const dbLogic = require("./database-logic");
 const useFactory = factoryFunction()
 //-----factory function*
-/*
-var data = {};
- async function log(){
-  data["name"] = await dbLogic().getData();
-  data["count"] = await dbLogic().count();
-}
-log();
-*/
 app.use(body.urlencoded({ extended: false }));
 app.use(body.json());
 
