@@ -1,6 +1,6 @@
 var assert = require("assert");
 var greet = require("../factory-function");
-
+var greeted = greet();
 describe("Greetings web app", () => {
   it("should set the username and language", () => {
     var greeted = greet();
@@ -8,13 +8,10 @@ describe("Greetings web app", () => {
       name: "Mthobisi",
       Group: "Isizulu",
     };
-    assert.deepEqual(greeted.setUserNameAndLang(data), {
-      userName: "Mthobisi",
-      userLang: "Sawbona",
-    });
+    assert.equal(greeted.setUserNameAndLang(data), null);
   });
   it("should get or return the recorded data", () => {
-    var greeted = greet();
+    var greet = greeted.getData();
     var data = {
       name: "Mthobisi",
       Group: "Isizulu",

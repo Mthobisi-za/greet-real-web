@@ -61,7 +61,6 @@ app.get("/greeted", async function (req, res) {
 app.get("/count/:name", async function (req, res) {
   var name = req.params.name;
   var data = await useFactory.getNames(name);
-  console.log(data)
   res.render('specific', {data: data})
 });
 /*-----about route
