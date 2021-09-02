@@ -3,8 +3,8 @@ const {Pool} = require("pg");
 // we are using a special test database for the tests
 const connectionString = process.env.DATABASE_URL;
 //{connectionString, ssl: {rejectUnauthorized: false}}
-var obj = {user: "postgres",host: "localhost",database: "users",password: "mthobisi",port: 5432}
-var pool = new Pool(obj);
+//var obj = {user: "postgres",host: "localhost",database: "users",password: "mthobisi",port: 5432}
+var pool = new Pool({connectionString, ssl: {rejectUnauthorized: false}});
 //---require the database
 const dbLogic = require("./database-logic");
 const useDb = dbLogic(pool);
@@ -89,7 +89,6 @@ module.exports = function businessLogic() {
       }).catch(err => console.log(err));
 
    var condition = name.hasOwnProperty("name") && name.hasOwnProperty("language");
-   console.log(condition)
    if(condition){
      return {count: data, name: name.name, language: name.language}
    } else{
