@@ -4,7 +4,7 @@ const {Pool} = require("pg");
 const connectionString = process.env.DATABASE_URL;
 //{connectionString, ssl: {rejectUnauthorized: false}}
 var obj = {user: "postgres",host: "localhost",database: "users",password: "mthobisi",port: 5432}
-var pool = new Pool({connectionString, ssl: {rejectUnauthorized: false}});
+var pool = new Pool(obj);
 //---require the database
 const dbLogic = require("./database-logic");
 const useDb = dbLogic(pool);
