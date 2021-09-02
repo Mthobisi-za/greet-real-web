@@ -8,8 +8,7 @@ if(connectionString){
   pool = new Pool({connectionString, ssl: {rejectUnauthorized: false}});
 } else{
   pool = new Pool(obj);
-}
-
+};
 var assert = require("assert");
 var greet = require("../factory-function");
 var greeted = greet(pool);
