@@ -1,57 +1,59 @@
+const {Pool} = require("pg");
+// we are using a special test database for the tests
+const connectionString = process.env.DATABASE_URL;
+//{connectionString, ssl: {rejectUnauthorized: false}}
+//var obj = {user: "postgres",host: "localhost",database: "users",password: "mthobisi",port: 5432}
+var pool = new Pool({connectionString, ssl: {rejectUnauthorized: false}});
+
+
 var assert = require("assert");
 var greet = require("../factory-function");
 var greeted = greet();
-describe("Greetings web app", () => {
-  it("should set the username and language", () => {
-    var greeted = greet();
+describe("Greetings web app", async function () {
+  beforeEach( async function (){
+    await greeted.reset()
+  });
+  it('Should store data', () => {
     var data = {
-      name: "Mthobisi",
       Group: "Isizulu",
-    };
-    assert.equal(greeted.setUserNameAndLang(data), null);
+      name: "MthobisiDb",
+    }
+    assert.equal(greeted.setUserNameAndLang(data), undefined);
   });
-  it("should get or return the recorded data", () => {
-    var greet = greeted.getData();
+
+  it('Should return the data', async function() {
+    var actaul = {
+      count: 0,
+      language: 'Sawbona',
+      name: 'MthobisiDb'
+    }
+    assert.deepEqual(await greeted.getData(),actaul);
+  })
+
+  it('Should return the list of greeted people', async function(){
+    var list = [];
+    assert.deepEqual(await greeted.getGreeted(), list)
+  });
+  it('Should return the number of times a user has been greeted', async function(){
+    var data ={
+      count: 0,
+      name: 'MthobisiDb'
+    }
+    assert.deepEqual(await greeted.getNames("MthobisiDb"), data)
+  });
+
+  it('Should get the error messages', async function(){
     var data = {
-      name: "Mthobisi",
-      Group: "Isizulu",
+      name: "",
+      Group: ""
     };
+    var err = "Please enter your name";
     greeted.setUserNameAndLang(data);
-    assert.deepEqual(greeted.getData(), {
-      userLang: "Sawbona",
-      userName: "Mthobisi",
-      count: 1,
-    });
+    assert.equal(await greeted.getErrors(), err);
   });
-  it("should get all greeted names", () => {
-    var greeted = greet();
-    var data = {
-      name: "Mthobisi",
-      Group: "Isizulu",
-    };
-    greeted.setUserNameAndLang(data);
-    greeted.getData();
-    greeted.setUserNameAndLang({
-      name: "Hloni",
-      Group: "Isizulu",
-    });
-    greeted.getData();
-    var all = [{ name: "Mthobisi" }, { name: "Hloni" }];
-    assert.deepEqual(greeted.getGreeted(), all);
-  });
-  it("should be able to get the number of times a user has been greeted", () => {
-    var greeted = greet();
-    var actual = {
-      correct: ["Mthobisi", "Mthobisi"],
-      num: 2,
-      name: "Mthobisi",
-    };
-    var data = { name: "Mthobisi", Group: "Isizulu" };
-    greeted.setUserNameAndLang(data);
-    greeted.getData();
-    var dataa = { name: "Mthobisi", Group: "English" };
-    greeted.setUserNameAndLang(dataa);
-    greeted.getData();
-    assert.deepEqual(greeted.getNames("Mthobisi"), actual);
-  });
+
+  after(async function(){
+  // await greeted.reset();
+      pool.end()
+  })
 });
