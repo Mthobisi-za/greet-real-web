@@ -80,7 +80,7 @@ module.exports = function businessLogic(pool) {
           return {}
         }
         
-      }).catch(err => console.log(err));
+      }).catch();
 
    var condition = name.hasOwnProperty("name") && name.hasOwnProperty("language");
    if(condition){
@@ -98,7 +98,7 @@ module.exports = function businessLogic(pool) {
     return message;
   }
   async function getGreeted() {
-    var obj = await useDb.count().then(val => {return val.rows}).catch(err => console.log(err))
+    var obj = await useDb.count().then(val => {return val.rows}).catch()
     return obj;
   }
   async function getNames(name) {
@@ -111,7 +111,7 @@ module.exports = function businessLogic(pool) {
         }
       })
        return count.length;
-    }).catch(err => console.log(err));
+    }).catch();
     /*
     var correct = [];
     for (let i = 0; i < all.length; i++) {
@@ -123,7 +123,7 @@ module.exports = function businessLogic(pool) {
     return { count: names, name };
   }
   async function reset(){
-   await useDb.resetData().then(val =>{}).catch(err => console.log(err))
+   await useDb.resetData().then(val =>{}).catch()
   }
   
   return {
