@@ -4,6 +4,16 @@ const exhbs = require("express-handlebars");
 const body = require("body-parser");
 const session = require("express-session");
 const flash = require("express-flash");
+
+const {Pool} = require("pg");
+// we are using a special test database for the tests
+const connectionString = process.env.DATABASE_URL;
+//{connectionString, ssl: {rejectUnauthorized: false}}
+//var obj = {user: "postgres",host: "localhost",database: "users",password: "mthobisi",port: 5432}
+var pool = new Pool({connectionString, ssl: {rejectUnauthorized: false}});
+//---require the database
+
+
 app.use(
   session({
     secret: "keyboard cat",
@@ -20,8 +30,7 @@ app.engine(
 app.set("view engine", "handlebars");
 ///----factory function
 const factoryFunction = require("./factory-function");
-const dbLogic = require("./database-logic");
-const useFactory = factoryFunction()
+const useFactory = factoryFunction(pool)
 //-----factory function*
 app.use(body.urlencoded({ extended: false }));
 app.use(body.json());

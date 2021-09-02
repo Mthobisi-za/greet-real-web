@@ -8,8 +8,7 @@ var pool = new Pool({connectionString, ssl: {rejectUnauthorized: false}});
 
 var assert = require("assert");
 var greet = require("../factory-function");
-const { Console } = require("console");
-var greeted = greet();
+var greeted = greet(pool);
 describe("Greetings web app tests", async function () {
   beforeEach(async function(){
    await greeted.reset();
