@@ -18,7 +18,6 @@ if(connectionString){
 }
 //---require the database
 
-
 app.use(
   session({
     secret: "keyboard cat",
