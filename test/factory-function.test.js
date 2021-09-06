@@ -23,7 +23,7 @@ describe("Greetings web app tests", async function () {
           name: "0987Mthobisi"
         }
         await greeted.setUserNameAndLang(data);
-        assert.equal(await greeted.getErrors(), "Please enter name that does not have numbers")
+        assert.equal(await greeted.getErrors(), "Please insert correct data format and select language")
     });
 
     it('Should be able to return error message if no name was entered and no language was selected', async function () {
@@ -31,7 +31,7 @@ describe("Greetings web app tests", async function () {
         name: ""
       }
       await greeted.setUserNameAndLang(data);
-      assert.equal(greeted.getErrors(), "Please enter your name")
+      assert.equal(greeted.getErrors(), "Please insert correct data format and select language")
     });
 
     it('Should return an error message if only language was selected and there was no name entered', async function () {
@@ -40,7 +40,7 @@ describe("Greetings web app tests", async function () {
         name: ""
       }
       await greeted.setUserNameAndLang(data);
-      assert.equal(await greeted.getErrors(), "Please enter your name")
+      assert.equal(await greeted.getErrors(), "Please insert correct data format and select language")
     });
 
     it('Should return 1 when there is only one user', async function () {

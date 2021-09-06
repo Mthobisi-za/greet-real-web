@@ -1,1 +1,1 @@
-CREATE TABLE data(name text not null, count int);
+CREATE TABLE data(name text not null, language text not null, count int);
