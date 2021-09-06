@@ -15,6 +15,8 @@ module.exports = function businessLogic(pool) {
     var lang = "Group" in data
       if(data.name.match(reg) && lang){
         await useDb.setData(data.name, data.Group);
+        message = "";
+        example = "";
       } else{
         message = "Please insert correct data format and select language";
         example = "e.g: 'Mthobisi' or 'mthobisi' "
