@@ -3,129 +3,49 @@
 const dbLogic = require("./database-logic");
 module.exports = function businessLogic(pool) {
   const useDb = dbLogic(pool);
-  var records = [];
-  var all = [];
-  var userName;
-  var userLang;
-  var count = 0;
+  var language;
   let message;
+  let example;
   //updated user values
   //-----db variables
   //-----db variables
 
-  function setUserNameAndLang(data) {
-    var statement = "Group" in data;
-    function userFix() {
-      var num = records.indexOf(data.name);
-      if (num == -1) {
-        count = count + 1;
-        userName = data.name;
-        all.push(userName);
-        records.push(userName);
-      } else {
-        userName = data.name;
-        all.push(userName);
+  async function setUserNameAndLang(data) {
+    var reg = /^[A-Za-z]+$/;
+    var lang = "Group" in data
+      if(data.name.match(reg) && lang){
+        await useDb.setData(data.name, data.Group);
+      } else{
+        message = "Please insert correct data format and select language";
+        example = "e.g: 'Mthobisi' or 'mthobisi' "
       }
-    }
-    function langFix() {
-      if (data.Group === "English") {
-        return (userLang = "Hello");
-      } else if (data.Group === "Isizulu") {
-        return (userLang = "Sawbona");
-      } else if (data.Group === "Sesotho") {
-        return (userLang = "Dumela");
-      } else {
-        conditions = false;
-        return "";
-      }
-    }
-
-    var hasNum = /\d/;
-
-    if (data.name == "" || data.name.startsWith(" ")) {
-      message = "Please enter your name";
-    } else if (hasNum.test(data.name)) {
-      message = "Please enter name that does not have numbers";
-    } else {
-      if (statement) {
-        userFix();
-        langFix();
-        message = "";
-        (async ()=>{
-          await useDb.setData(userLang, userName);
-        })();
-       
-      } else {
-        if (
-          message !== undefined ||
-          message == "Please enter name that does not have numbers" ||
-          message == "Please enter your name"
-        ) {
-          message = message + " and select language";
-        } else {
-          message = "Please select language";
-        }
-      }
-    }
   }
 
   async function getData() {
-   
-        var data = await useDb.count().then(val => {return val.rows.length});
-        var name = await useDb.getData().then(val =>{
-        var obj = val.rows[val.rows.length-1];
-        try {
-          return {  name :obj.name, language: obj.language  };
-        } catch (error) {
-          return {}
-        }
-        
-      }).catch();
-
-   var condition = name.hasOwnProperty("name") && name.hasOwnProperty("language");
-   if(condition){
-     return {count: data, name: name.name, language: name.language}
+   var data = await useDb.getData();
+   var lastIndex = data.rows[data.rows.length - 1];
+   if(data.rows.length > 0){
+    return {name: lastIndex.name, count: data.rows.length, language: lastIndex.language} 
    } else{
-     return{count: 0}
+     return {count: 0}
    }
-  
-     
-   
-      
     //return userLang + "," + userLang
   }
   function getErrors() {
     return message;
   }
   async function getGreeted() {
-    var obj = await useDb.count().then(val => {return val.rows}).catch()
-    return obj;
+    var obj = await useDb.getData()
+    return obj.rows;
   }
   async function getNames(name) {
-    var names = await useDb.getData().then(val =>{
-      var count = [];
-      val.rows.forEach(element =>{
-        console.log(element)
-        if(element.name == name){
-          count.push(element.name)
-        }
-      })
-       return count.length;
-    }).catch();
-    /*
-    var correct = [];
-    for (let i = 0; i < all.length; i++) {
-      if (all[i] == name) {
-        correct.push(all[i]);
-      } else {
-      }
-    } */
-    return { count: names, name };
+    var data = await useDb.getAllData(name);
+    console.log(data.rows[0]);
+    return  data.rows[0];
   }
   async function reset(){
-   await useDb.resetData().then(val =>{}).catch()
+   await useDb.resetData()
   }
-  
   return {
     setUserNameAndLang,
     getData,
