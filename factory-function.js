@@ -11,9 +11,9 @@ module.exports = function businessLogic(pool) {
   //-----db variables
 
   async function setUserNameAndLang(data) {
-    var reg = /^[A-Za-z]+$/;
+    var checkForCorrectInputs = /^[A-Za-z]+$/;
     var lang = "Group" in data
-      if(data.name.match(reg) && lang){
+      if(data.name.match(checkForCorrectInputs) && lang){
         await useDb.setData(data.name, data.Group);
         message = "";
         example = "";

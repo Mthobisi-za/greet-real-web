@@ -18,7 +18,7 @@ module.exports = function database(pool){
          return data;
     }
     async function getAllData(name){
-        var all = await pool.query("select name,count from data where name = $1 ",[name]);
+        var all = await pool.query("select * from data where name = $1 ",[name]);
         return all
     }
     async function resetData(){
